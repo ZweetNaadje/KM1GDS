@@ -4,9 +4,9 @@ public class Shoot : MonoBehaviour
 {
     [SerializeField] private Transform[] _bulletSpawnPoints;
     [SerializeField] private GameObject _bulletPrefab;
+    [SerializeField] private GameObject _smokeVfx;
     [SerializeField] private float _fireRate;
     [SerializeField] private float _bulletSpeed;
-    [SerializeField] private GameObject[] _smokeVFX;
 
     private float _nextFireTime;
     
@@ -17,15 +17,14 @@ public class Shoot : MonoBehaviour
             return;
         }
 
-        /*foreach (var smokeVFX in _smokeVFX)
-        {
-            smokeVFX.SetActive(true);
-        }*/
-        
         foreach (var cannon in _bulletSpawnPoints)
         {
             GameObject bullet = Instantiate(_bulletPrefab, cannon.position, cannon.rotation);
-            bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed;
+            GameObject smokeVfx = Instantiate(_smokeVfx, cannon.position, cannon.rotation);
+            
+            bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed; 
+            
+            smokeVfx.GetComponent<ParticleSystem>().Play();
         }
     }
 

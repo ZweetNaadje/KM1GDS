@@ -1,4 +1,9 @@
-﻿using UnityEngine;
+﻿using Cinemachine;
+using StylizedWater2;
+using Unity.Collections;
+using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace Player_Scripts
 {
@@ -10,8 +15,14 @@ namespace Player_Scripts
         [SerializeField] private int _maxHealth;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotationSpeed = 10f;
+        [SerializeField] private CinemachineVirtualCamera _periscopeCamera;
+        [SerializeField] private Volume _volumeProfile;
+        [SerializeField] private Canvas _canvas;
+
+        private Vignette _vignette;
 
         private bool _isBurrowed;
+        private bool _isUsingPeriscope;
     
         //When you want to do something with these 2 variables, but only as read-only.
         public override int Health => _health;
@@ -21,6 +32,14 @@ namespace Player_Scripts
         private void Start()
         {
             _health = _maxHealth;
+            _canvas.enabled = false;
+            
+            _volumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
+    
+            if (vignette != null)
+            {
+                _vignette = vignette;
+            }
         }
 
         public override void TakeDamage(int damage)
@@ -62,6 +81,27 @@ namespace Player_Scripts
 
             transform.Rotate(rotation * Time.deltaTime);
             transform.Translate(movement * _moveSpeed * Time.deltaTime);
+        }
+
+        public void TogglePeriscope()
+        {
+            _isUsingPeriscope = !_isUsingPeriscope;
+
+            if (_isUsingPeriscope)
+            {
+                _canvas.enabled = true;
+                _volumeProfile.enabled = true;
+                _periscopeCamera.m_Lens.FieldOfView = 40;
+                _periscopeCamera.Priority = 11;
+            }
+            else
+            {
+                _canvas.enabled = false;
+                _volumeProfile.enabled = false;
+                _periscopeCamera.Priority = 9;
+            }
+            
+            
         }
     }
 }

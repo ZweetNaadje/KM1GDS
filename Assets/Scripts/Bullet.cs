@@ -8,7 +8,7 @@ using Sketches;
 
 public class Bullet : MonoBehaviour
 {
-    [SerializeField] private float _timeAlive = 3f;
+    [SerializeField] private float _timeAlive = 10f;
     [SerializeField] private GameObject _explosionVFX;
     [SerializeField] private CinemachineImpulseSource _impulse;
     
@@ -41,5 +41,6 @@ public class Bullet : MonoBehaviour
         
         //Destroy bullet
         Destroy(gameObject);
+        Destroy(explosion.gameObject, 5f);
     }
 }

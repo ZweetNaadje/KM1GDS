@@ -129,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b6da177dc29f8b44aad69929d2701d50, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _timeAlive: 3
+  _timeAlive: 10
   _explosionVFX: {fileID: 163066, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
   _impulse: {fileID: -2679197174574487599}
 --- !u!114 &-2679197174574487599

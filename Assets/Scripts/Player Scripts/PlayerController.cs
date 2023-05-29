@@ -23,6 +23,11 @@ public class PlayerController : MonoBehaviour
             _player.ToggleBurrowed();
         }
 
+        if (Input.GetMouseButtonDown(1))
+        {
+            _player.TogglePeriscope();
+        }
+
         if (Input.GetMouseButtonDown(0))
         {
             _shoot.Shooting();
