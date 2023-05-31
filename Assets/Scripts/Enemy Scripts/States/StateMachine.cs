@@ -1,61 +1,55 @@
-﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
-namespace States
+namespace Enemy_Scripts.States
 {
+    /// <summary>
+    /// This Class, StateMachine, has the Monobehaviour Update, FixedUpdate loops.
+    /// </summary>
     public class StateMachine : MonoBehaviour
     {
-        private State _currentState;
+        private Dictionary<System.Type, State> _states = new Dictionary<System.Type, State>();
 
-        public StateMachine()
+        public State StartState;
+        public State CurrentState;
+
+        public void Start()
         {
-            _currentState = State.Unburrowed;
-        }
-
-        private void Start()
-        {
-        }
-
-        private void Update()
-        {
-            CheckState();
-
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                TransitionTo(State.Burrowed);
-            }
+            State[] allStates = GetComponents<State>();
             
-            if (Input.GetKeyDown(KeyCode.Z))
+            //Each state has a statemachine
+            foreach (State state in allStates)
             {
-                TransitionTo(State.Unburrowed);
+                state.SetStateMachine(this);
+                state.Setup();
+                _states.Add(state.GetType(), state);
             }
+
+            SwitchState(StartState.GetType());
         }
 
-        public void TransitionTo(State nextState)
+        public void Update()
         {
-            _currentState = nextState;
+            CurrentState?.OnUpdate();
         }
 
-        private void CheckState()
+        public void FixedUpdate()
         {
-            switch (_currentState)
+            CurrentState?.OnFixedUpdate();
+        }
+
+        public void SwitchState(System.Type stateType)
+        {
+            if (_states.ContainsKey(stateType))
             {
-                case State.Burrowed:
-                    BurrowedBehaviour();
-                    break;
-
-                case State.Unburrowed:
-                    UnburrowedBehaviour();
-                    break;
+                CurrentState?.OnExit();
+                CurrentState = _states[stateType];
+                CurrentState?.OnEnter();
             }
-        }
-
-        private void UnburrowedBehaviour()
-        {
-        }
-
-        private void BurrowedBehaviour()
-        {
+            else
+            {
+                Debug.LogWarning("State not found in dictionary!");
+            }
         }
     }
 }

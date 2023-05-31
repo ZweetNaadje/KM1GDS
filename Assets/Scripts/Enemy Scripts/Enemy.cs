@@ -1,4 +1,6 @@
 ﻿using System;
+using Interfaces;
+using Player_Scripts;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -8,25 +10,34 @@ namespace Enemy_Scripts
     {
         [SerializeField] private int _health;
         [SerializeField] private int _maxHealth;
-        [SerializeField] private NavMeshAgent _agent;
-        
-        public Transform coneApex;
-        public Vector3 coneDirection;
-        public float coneAngle;
-        public float maxDistance;
-        public GameObject Prefab;
+        [SerializeField] private Transform[] _bulletSpawnPoints;
+        [SerializeField] private GameObject _bulletPrefab;
+        [SerializeField] private GameObject _smokeVFX;
+        [SerializeField] private GameObject[] _cannons;
+        [SerializeField] private float _fireRate;
+        [SerializeField] private float _bulletSpeed;
+        [SerializeField] private float _attackRange;
+  
 
+        private float _nextFireTime;
+        
+        public NavMeshAgent Agent;
+        public Player Player;
+        
         public override int Health => _health;
         public override int MaxHealth => _maxHealth;
+        public override Transform[] BulletSpawnPoints => _bulletSpawnPoints;
+        public override GameObject BulletPrefab => _bulletPrefab;
+        public override GameObject SmokeVFX => _smokeVFX;
+        public override GameObject[] Cannons => _cannons;
+        public override float FireRate => _fireRate;
+        public override float BulletSpeed => _bulletSpeed;
+        public override float AttackRange => _attackRange;
+        
 
         private void Start()
         {
             _health = _maxHealth;
-
-            Vector3 randomPoint = GetRandomPointInCone();
-            Debug.Log("Random Point: " + randomPoint);
-
-            Instantiate(Prefab, randomPoint, Quaternion.identity);
         }
 
         public override void TakeDamage(int damage)
@@ -39,25 +50,46 @@ namespace Enemy_Scripts
             }
         }
 
-        private void Move()
+        public override void Shooting()
         {
+            if (!CanAttack())
+            {
+                return;
+            }
+
+            foreach (var cannon in _bulletSpawnPoints)
+            {
+                GameObject bullet = Instantiate(_bulletPrefab, cannon.position, cannon.rotation);
+                GameObject smokeVfx = Instantiate(_smokeVFX, cannon.position, cannon.rotation);
             
+                bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed; 
+            
+                smokeVfx.GetComponent<ParticleSystem>().Play();
+            }
         }
-        
-        private Vector3 GetRandomPointInCone()
+
+        public override bool CanAttack()
         {
-            float cosHalfAngle = Mathf.Cos(coneAngle * 0.5f * Mathf.Deg2Rad);
-            float maxAngle = Mathf.Acos(cosHalfAngle);
+            float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
+            
+            if (Time.time >= _nextFireTime || distanceToPlayer < _attackRange)
+            {
+                _nextFireTime = Time.time + (1f / _fireRate);
+                return true;
+            }
 
-            float randomAngle = UnityEngine.Random.Range(-maxAngle, maxAngle);
-            Vector3 rotationAxis = UnityEngine.Random.onUnitSphere;
-            Quaternion randomRotation = Quaternion.AngleAxis(randomAngle * Mathf.Rad2Deg, rotationAxis);
-            Vector3 randomDirection = randomRotation * coneDirection;
+            return false;
+        }
 
-            float randomDistance = UnityEngine.Random.Range(0f, maxDistance);
-            Vector3 randomPoint = coneApex.position + randomDirection * randomDistance;
+        public override void LookAtPlayer()
+        {
+            var point = Player.transform.position;
+            point.y = 0f;
 
-            return randomPoint;
+            foreach (var cannon in _cannons)
+            {
+                cannon.transform.LookAt(point);
+            }
         }
     }
 }

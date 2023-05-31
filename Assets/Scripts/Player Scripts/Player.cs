@@ -15,10 +15,10 @@ namespace Player_Scripts
         [SerializeField] private int _maxHealth;
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotationSpeed = 10f;
+        
         [SerializeField] private CinemachineVirtualCamera _periscopeCamera;
         [SerializeField] private Volume _volumeProfile;
         [SerializeField] private Canvas _canvas;
-
         private Vignette _vignette;
 
         private bool _isBurrowed;

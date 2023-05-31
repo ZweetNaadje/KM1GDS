@@ -85,10 +85,6 @@ namespace Player_Scripts
 
             var screenCenter = new Vector3(Screen.width / 2.0f, Screen.height / 2.0f + 200);
 
-            Debug.Log($"mousepos: {Input.mousePosition}");
-            Debug.Log($"screenCenter: {screenCenter}");
-            Debug.Log($"calculation (should be able to go below 100): {(Input.mousePosition - screenCenter).magnitude}");
-            
             // This prevents camera rotation when mouse is in 100 pixels circle in screen center.
             if ((Input.mousePosition - screenCenter).magnitude < 100)
             {
