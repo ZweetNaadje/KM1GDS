@@ -11,6 +11,7 @@ namespace Sketches
     {
         [SerializeField] private Player _player;
         [SerializeField] private Shoot _shoot;
+        //[SerializeField] private Transform _turretTransform;
 
         private void Update()
         {
@@ -23,11 +24,15 @@ namespace Sketches
             {
                 return;
             }
-            
+
             if (!_player.IsBurrowed)
             {
                 var point = _player.transform.position;
-                point.y = 0.0f;
+                //var cannon = _turretTransform.rotation.x;
+
+                //cannon = 0f;
+                
+                point.y = 0f;
                 transform.LookAt(point);
                 _shoot.Shooting();
             }
