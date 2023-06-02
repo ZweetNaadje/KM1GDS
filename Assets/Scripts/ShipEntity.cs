@@ -1,13 +1,14 @@
 ﻿using Interfaces;
 using UnityEngine;
 
-public abstract class Entity : MonoBehaviour, IDamageable
+public abstract class ShipEntity : MonoBehaviour, IDamageable
 {
     public virtual Transform[] BulletSpawnPoints { get; }
     public virtual GameObject BulletPrefab { get; }
     public virtual GameObject SmokeVFX { get; }
-   
     public virtual GameObject[] Cannons { get; }
+    
+    public virtual GameObject[] Barrels { get; }
     
     public virtual float FireRate => 1f;
     public virtual float BulletSpeed => 50f;

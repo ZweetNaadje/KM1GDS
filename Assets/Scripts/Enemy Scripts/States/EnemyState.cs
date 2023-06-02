@@ -1,6 +1,6 @@
 ﻿namespace Enemy_Scripts.States
 {
-    public class EnemyState : State
+    public abstract class EnemyState : State
     {
         protected Enemy _owner;
         public override void Setup()

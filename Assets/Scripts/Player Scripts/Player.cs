@@ -7,7 +7,7 @@ using UnityEngine.Rendering.Universal;
 
 namespace Player_Scripts
 {
-    public class Player : Entity
+    public class Player : ShipEntity
     {
         //Player logic, not input!
 
@@ -100,8 +100,6 @@ namespace Player_Scripts
                 _volumeProfile.enabled = false;
                 _periscopeCamera.Priority = 9;
             }
-            
-            
         }
     }
 }

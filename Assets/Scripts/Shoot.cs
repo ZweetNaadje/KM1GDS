@@ -9,7 +9,7 @@ public class Shoot : MonoBehaviour
     [SerializeField] private float _bulletSpeed;
 
     private float _nextFireTime;
-    
+
     public void Shooting()
     {
         if (!CanAttack())
@@ -21,9 +21,14 @@ public class Shoot : MonoBehaviour
         {
             GameObject bullet = Instantiate(_bulletPrefab, cannon.position, cannon.rotation);
             GameObject smokeVfx = Instantiate(_smokeVfx, cannon.position, cannon.rotation);
+
+            var personalCollider = GetComponent<Collider>();
+            var bulletCollider = bullet.GetComponent<Collider>();
             
-            bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed; 
-            
+            Physics.IgnoreCollision(personalCollider, bulletCollider);
+
+            bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed;
+
             smokeVfx.GetComponent<ParticleSystem>().Play();
         }
     }
@@ -39,4 +44,3 @@ public class Shoot : MonoBehaviour
         return false;
     }
 }
-
