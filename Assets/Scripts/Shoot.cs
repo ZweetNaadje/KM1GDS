@@ -7,10 +7,13 @@ public class Shoot : MonoBehaviour
     [SerializeField] private GameObject _smokeVfx;
     [SerializeField] private float _fireRate;
     [SerializeField] private float _bulletSpeed;
+    
+    [SerializeField] private GameObject _torpedoPrefab;
+    [SerializeField] private Transform[] _torpedoSpawnPoints;
 
     private float _nextFireTime;
 
-    public void Shooting()
+    public void ShootCannon()
     {
         if (!CanAttack())
         {
@@ -30,6 +33,26 @@ public class Shoot : MonoBehaviour
             bullet.GetComponent<Rigidbody>().velocity = cannon.forward * _bulletSpeed;
 
             smokeVfx.GetComponent<ParticleSystem>().Play();
+        }
+    }
+
+    public void LaunchTorpedo()
+    {
+        if (!CanAttack())
+        {
+            return;
+        }
+        
+        foreach (var torpedoLauncher in _torpedoSpawnPoints)
+        {
+            GameObject torpedo = Instantiate(_torpedoPrefab, torpedoLauncher.position, torpedoLauncher.rotation);
+
+            var personalCollider = GetComponent<Collider>();
+            var torpedoCollider = torpedo.GetComponent<Collider>();
+            
+            Physics.IgnoreCollision(personalCollider, torpedoCollider);
+
+            torpedo.GetComponent<Rigidbody>().velocity = torpedoLauncher.forward * _bulletSpeed;
         }
     }
 

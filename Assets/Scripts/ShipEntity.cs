@@ -26,7 +26,7 @@ public abstract class ShipEntity : MonoBehaviour, IDamageable
         throw new System.NotImplementedException();
     }
 
-    public virtual void Shooting()
+    public virtual void ShootDeckCannon()
     {
         throw new System.NotImplementedException();
     }

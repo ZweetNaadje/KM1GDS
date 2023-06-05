@@ -62,11 +62,20 @@ namespace Player_Scripts
 
             if (_isBurrowed)
             {
+                _canvas.enabled = true;
+                _volumeProfile.enabled = true;
+                _periscopeCamera.m_Lens.FieldOfView = 40;
+                _periscopeCamera.Priority = 11;
+                
                 transform.localPosition = new Vector3(xVector, yVector - 7.07f, zVector);
                 _moveSpeed = 15f;
             }
             else
             {
+                _canvas.enabled = false;
+                _volumeProfile.enabled = false;
+                _periscopeCamera.Priority = 9;
+                
                 transform.localPosition = new Vector3(xVector, yVector + 7.07f, zVector);
                 _moveSpeed = 7f;
             }
@@ -83,6 +92,7 @@ namespace Player_Scripts
             transform.Translate(movement * _moveSpeed * Time.deltaTime);
         }
 
+        //For enabling periscopetoggle aside from being burrowed or not
         public void TogglePeriscope()
         {
             _isUsingPeriscope = !_isUsingPeriscope;

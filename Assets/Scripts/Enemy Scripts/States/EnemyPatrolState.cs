@@ -39,11 +39,11 @@ namespace Enemy_Scripts.States
         {
             Debug.Log("EnemyPatrolState: OnUpdate called!");
             
+            ScanForPlayer();
             _owner.Move();
-            FOOScanning();
         }
 
-        private void FOOScanning()
+        private void ScanForPlayer()
         {
             var distToPlayer = Vector3.Distance(transform.position, _owner.Player.transform.position);
 
@@ -54,32 +54,5 @@ namespace Enemy_Scripts.States
                 stateMachine.SwitchState(typeof(EnemyAttackState));
             }
         }
-
-        // private void ScanForPlayer()
-        // {
-        //     //Check for transitions
-        //     //Attackable layer can be used to simulate AI attacking AI maybe? For now ignore that
-        //     
-        //     //WIP Workaround
-        //     int maxColliders = 10;
-        //     Collider[] colls = Physics.OverlapSphere(transform.position, _detectionRange, _attackableLayer);
-        //     
-        //
-        //     
-        //     
-        //     Debug.Log(colls.Length);
-        //     //TODO: Colls length is not getting cleared thus causing enemy to constantly switch between states since colls is never 0 again
-        //     if (colls.Length != 0)
-        //     {
-        //         //TODO: This line needs attention. Im kinda lost as to how to do this.
-        //         stateMachine.SwitchState(typeof(EnemyAttackState));
-        //         
-        //     }
-        // }
-
-       
-        
-
-        
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Numerics;
+using Enemy_Scripts.States;
 using Interfaces;
 using Player_Scripts;
 using UnityEngine;
@@ -10,6 +11,9 @@ using Vector3 = UnityEngine.Vector3;
 
 namespace Enemy_Scripts
 {
+    [RequireComponent(typeof(StateMachine))]
+    [RequireComponent(typeof(EnemyAttackState))]
+    [RequireComponent(typeof(EnemyPatrolState))]
     public class Enemy : ShipEntity
     {
         [SerializeField] private int _health;
@@ -42,19 +46,19 @@ namespace Enemy_Scripts
         public override float BulletSpeed => _bulletSpeed;
         public override float AttackRange => _attackRange;
         public float MoveSpeed => _moveSpeed;
-        
+
 
         private void Start()
         {
             _health = _maxHealth;
         }
-
+        
         public void Move()
         {
-            float distanceToWaypoint = Vector3.Distance(transform.position, _targetPoint);
+            float distanceTargetPoint = Vector3.Distance(transform.position, _targetPoint);
             var rotateToThis = Vector3.RotateTowards(transform.forward, _targetPoint - transform.position, 10f * Time.deltaTime, 10f);
 
-            if (distanceToWaypoint > 0.1f)
+            if (distanceTargetPoint > 0.1f)
             {
                 // Move towards the target point
                 transform.position =
@@ -72,8 +76,8 @@ namespace Enemy_Scripts
 
         public Vector3 GetRandomPointInArea()
         {
-            float randomX = Random.Range(_ground.position.x -1000f, _ground.position.x + 1000f);
-            float randomZ = Random.Range(_ground.position.z -1000f, _ground.position.z + 1000f);
+            float randomX = Random.Range(_ground.position.x - 1000f, _ground.position.x + 1000f);
+            float randomZ = Random.Range(_ground.position.z - 1000f, _ground.position.z + 1000f);
 
             return new Vector3(randomX, transform.position.y, randomZ);
         }
@@ -102,7 +106,7 @@ namespace Enemy_Scripts
             }
         }
 
-        public override void Shooting()
+        public override void ShootDeckCannon()
         {
             if (!CanAttack())
             {
@@ -129,7 +133,7 @@ namespace Enemy_Scripts
         {
             float distanceToPlayer = Vector3.Distance(transform.position, Player.transform.position);
             
-            if (Time.time >= _nextFireTime)
+            if (Time.time >= _nextFireTime && distanceToPlayer < AttackRange)
             {
                 _nextFireTime = Time.time + (1f / _fireRate);
                 return true;

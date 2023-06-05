@@ -6,11 +6,12 @@ using Cinemachine;
 using Interfaces;
 using Sketches;
 
-public class Bullet : MonoBehaviour
+public class Projectile : MonoBehaviour
 {
     [SerializeField] private float _timeAlive = 10f;
     [SerializeField] private GameObject _explosionVFX;
     [SerializeField] private CinemachineImpulseSource _impulse;
+    
     
     private void Awake()
     {

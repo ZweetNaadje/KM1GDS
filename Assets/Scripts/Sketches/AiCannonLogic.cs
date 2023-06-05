@@ -34,7 +34,7 @@ namespace Sketches
                 
                 point.y = 0f;
                 transform.LookAt(point);
-                _shoot.Shooting();
+                _shoot.ShootCannon();
             }
         }
 

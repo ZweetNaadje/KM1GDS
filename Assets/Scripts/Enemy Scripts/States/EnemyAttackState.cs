@@ -7,12 +7,10 @@ namespace Enemy_Scripts.States
 {
     public class EnemyAttackState : EnemyState
     {
-        [SerializeField] private float _attackRange;
-        
         public override void OnEnter()
         {
             Debug.Log("EnemyAttackState: OnEnter called!");
-            
+
             if (_owner.Player == null)
             {
                 Debug.LogWarning("_owner.Player is null!");
@@ -22,16 +20,16 @@ namespace Enemy_Scripts.States
         public override void OnUpdate()
         {
             Debug.Log("EnemyAttackState: OnUpdate called!");
-            
+
             if (_owner.Player.IsBurrowed)
             {
                 stateMachine.SwitchState(typeof(EnemyPatrolState));
                 return;
             }
-            
+
             EngagePlayer();
 
-            /*if (distanceToPlayer < _attackRange * 1.5f)
+            /*if (distanceToPlayer < _owner.AttackRange * 1.5f)
             {
                 //Fire a flare in Y-direction of the enemy
                 //Play a ship horn
@@ -46,27 +44,34 @@ namespace Enemy_Scripts.States
         private void EngagePlayer()
         {
             float distanceToPlayer = Vector3.Distance(transform.position, _owner.Player.transform.position);
-
-
-            if (distanceToPlayer < 100f)
+    
+            //When in player is in firing range, or whatever range you define, 
+            //Stop with moving towards player,
+            //Rotate the side of the ship towards the player,
+            //Start circling around the player,
+            //whilst shooting
+            if (distanceToPlayer < 200f)
             {
+                var rotateToThis = Vector3.RotateTowards(transform.right, _owner.Player.transform.position - transform.position, 10f * Time.deltaTime, 10f);
+                transform.rotation = Quaternion.LookRotation(rotateToThis);
                 transform.position = transform.position;
             }
             else
             {
-                transform.position = Vector3.MoveTowards(transform.position, _owner.Player.transform.position, _owner.MoveSpeed * Time.deltaTime);
+                transform.position = Vector3.MoveTowards(transform.position, _owner.Player.transform.position,
+                    _owner.MoveSpeed * Time.deltaTime);
             }
-            
+
             //Move towards player
             //When in attack range - offset (so its not constantly on the edge of the attackrange)
             //Start circling around the player, 
             //whilst shooting
-            
-            if (distanceToPlayer < _attackRange)
+
+            if (distanceToPlayer < _owner.AttackRange)
             {
                 //Shoot at player
                 _owner.LookAtPlayer();
-                _owner.Shooting();
+                _owner.ShootDeckCannon();
 
                 if (_owner.Player.Health <= 0)
                 {

@@ -19,15 +19,21 @@ namespace Player_Scripts
             {
                 _player.ToggleBurrowed();
             }
-
-            if (Input.GetMouseButtonDown(1))
+            
+            //Enable for persicopetoggle
+            /*if (Input.GetMouseButtonDown(1))
             {
                 _player.TogglePeriscope();
-            }
+            }*/
 
             if (Input.GetMouseButtonDown(0) && !_player.IsBurrowed)
             {
-                _shoot.Shooting();
+                _shoot.ShootCannon();
+            }
+
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                _shoot.LaunchTorpedo();
             }
         }
     }
