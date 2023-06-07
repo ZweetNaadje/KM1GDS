@@ -64,13 +64,13 @@ namespace Enemy_Scripts.States
             {
                 transform.position = Vector3.MoveTowards(transform.position, _owner.Player.transform.position,
                     _owner.MoveSpeed * Time.deltaTime);
+
+                var newDir = Vector3.RotateTowards(transform.forward,
+                    _owner.Player.transform.position - transform.position, 1f * Time.deltaTime, 0f);
+                
+                transform.rotation = Quaternion.LookRotation(newDir);
             }
 
-            if (_owner.ShouldRotateToPlayer)
-            {
-                transform.LookAt(_owner.Player.transform);
-            }
-            
             if (distanceToPlayer < _owner.AttackRange)
             {
                 //Shoot at player
@@ -87,7 +87,8 @@ namespace Enemy_Scripts.States
         private void EngagePlayer()
         {
             float distanceToPlayer = Vector3.Distance(transform.position, _owner.Player.transform.position);
-    
+            
+            
             //When in player is in firing range, or whatever range you define, 
             //Stop with moving towards player,
             //Rotate the side of the ship towards the player,

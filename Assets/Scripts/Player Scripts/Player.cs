@@ -1,9 +1,11 @@
 ﻿using Cinemachine;
+using Enemy_Scripts;
 using StylizedWater2;
 using Unity.Collections;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 namespace Player_Scripts
 {
@@ -19,6 +21,8 @@ namespace Player_Scripts
         [SerializeField] private CinemachineVirtualCamera _periscopeCamera;
         [SerializeField] private Volume _volumeProfile;
         [SerializeField] private Canvas _canvas;
+
+        [SerializeField] private AudioSource _audioSource;
         
         private Vignette _vignette;
         private bool _isBurrowed;
@@ -34,7 +38,8 @@ namespace Player_Scripts
         {
             _health = _maxHealth;
             _canvas.enabled = false;
-            
+            _audioSource.Play();
+
             _volumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
     
             if (vignette != null)
@@ -49,6 +54,7 @@ namespace Player_Scripts
 
             if (_health <= 0)
             {
+                SceneManager.LoadScene("Game");
                 Destroy(gameObject, 1.0f);
             }
         }
@@ -92,6 +98,8 @@ namespace Player_Scripts
             transform.Rotate(rotation * Time.deltaTime);
             transform.Translate(movement * _moveSpeed * Time.deltaTime);
         }
+        
+        
 
         //For enabling periscopetoggle aside from being burrowed or not
         public void TogglePeriscope()
