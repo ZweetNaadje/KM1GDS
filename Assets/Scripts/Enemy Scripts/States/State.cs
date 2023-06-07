@@ -1,8 +1,34 @@
-﻿namespace States
+﻿using UnityEngine;
+
+namespace Enemy_Scripts.States
 {
-    public enum State
+    public abstract class State : MonoBehaviour
     {
-        Burrowed,
-        Unburrowed,
+        protected StateMachine stateMachine;
+
+        public void SetStateMachine(StateMachine machine)
+        {
+            stateMachine = machine;
+        }
+
+        public virtual void Setup()
+        {
+        }
+
+        public virtual void OnEnter()
+        {
+        }
+
+        public virtual void OnExit()
+        {
+        }
+
+        public virtual void OnUpdate()
+        {
+        }
+
+        public virtual void OnFixedUpdate()
+        {
+        }
     }
 }
