@@ -71,5 +71,7 @@ crashlytics-build.properties
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
 
-#Custom
+#Custom folder exclusions to prevent legal trouble
 /[Aa]ssets/[Vv]endor/*
+/[Aa]ssets/[Aa]udio/*
+/[Aa]ssets/[Vv]ideo[Cc]lips/*

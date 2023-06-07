@@ -11,6 +11,7 @@ public class Projectile : MonoBehaviour
     [SerializeField] private float _timeAlive = 10f;
     [SerializeField] private GameObject _explosionVFX;
     [SerializeField] private CinemachineImpulseSource _impulse;
+    [SerializeField] private AudioClip _audioClip;
     
     
     private void Awake()
@@ -28,7 +29,6 @@ public class Projectile : MonoBehaviour
             damageable.TakeDamage(1);
         }
 
-        //TODO: VFX effects dont destroy themselves after being instantiated
         //VFX effect
         GameObject explosion = Instantiate(_explosionVFX, transform.position, Quaternion.identity);
         explosion.GetComponent<ParticleSystem>().Play();
@@ -36,12 +36,11 @@ public class Projectile : MonoBehaviour
         //Camerashake on collision
         _impulse.GenerateImpulse();
         
-        //TODO: Soundeffect is fucking ass to add
+        //TODO: Static function will set Spatial blend to 3D (1.0f). Use a different method if you want it to be 2D sound
         //Sound effect
-        
+        AudioSource.PlayClipAtPoint(_audioClip, collision.transform.position, 1f);
         
         //Destroy bullet
         Destroy(gameObject);
-        Destroy(explosion.gameObject, 5f);
     }
 }

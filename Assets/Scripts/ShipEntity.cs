@@ -7,7 +7,6 @@ public abstract class ShipEntity : MonoBehaviour, IDamageable
     public virtual GameObject BulletPrefab { get; }
     public virtual GameObject SmokeVFX { get; }
     public virtual GameObject[] Cannons { get; }
-    
     public virtual GameObject[] Barrels { get; }
     
     public virtual float FireRate => 1f;

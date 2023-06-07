@@ -1,10 +1,6 @@
-﻿using System;
-using System.Numerics;
-using Enemy_Scripts.States;
-using Interfaces;
+﻿using Enemy_Scripts.States;
 using Player_Scripts;
 using UnityEngine;
-using UnityEngine.AI;
 using Quaternion = UnityEngine.Quaternion;
 using Random = UnityEngine.Random;
 using Vector3 = UnityEngine.Vector3;
@@ -27,14 +23,15 @@ namespace Enemy_Scripts
         [SerializeField] private float _bulletSpeed;
         [SerializeField] private float _attackRange;
         [SerializeField] private float _moveSpeed;
-        [SerializeField] private Transform _ground;
+        [SerializeField] private Transform _patrolArea;
+        [SerializeField] private AudioSource _audioSource;
+        [SerializeField] private AudioClip _shipHornAudioClip;
+        [SerializeField] private bool _shouldRotateToPlayer;
 
         private Vector3 _targetPoint;
-        
         private float _nextFireTime;
         
         public Player Player;
-        
         public override int Health => _health;
         public override int MaxHealth => _maxHealth;
         public override Transform[] BulletSpawnPoints => _bulletSpawnPoints;
@@ -46,13 +43,16 @@ namespace Enemy_Scripts
         public override float BulletSpeed => _bulletSpeed;
         public override float AttackRange => _attackRange;
         public float MoveSpeed => _moveSpeed;
+        public AudioSource AudioSource => _audioSource;
+        public AudioClip ShipHornAudioClip => _shipHornAudioClip;
+        public bool ShouldRotateToPlayer => _shouldRotateToPlayer;
 
 
         private void Start()
         {
             _health = _maxHealth;
         }
-        
+
         public void Move()
         {
             float distanceTargetPoint = Vector3.Distance(transform.position, _targetPoint);
@@ -74,10 +74,11 @@ namespace Enemy_Scripts
             }
         }
 
+        //TODO: Fix all enemies moving towards (0, 0, 0) initially instead of instantly getting a random point
         public Vector3 GetRandomPointInArea()
         {
-            float randomX = Random.Range(_ground.position.x - 1000f, _ground.position.x + 1000f);
-            float randomZ = Random.Range(_ground.position.z - 1000f, _ground.position.z + 1000f);
+            float randomX = Random.Range(_patrolArea.position.x - 350f, _patrolArea.position.x + 300f);
+            float randomZ = Random.Range(_patrolArea.position.z - 400f, _patrolArea.position.z + 500f);
 
             return new Vector3(randomX, transform.position.y, randomZ);
         }

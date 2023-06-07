@@ -19,15 +19,16 @@ namespace Player_Scripts
         [SerializeField] private CinemachineVirtualCamera _periscopeCamera;
         [SerializeField] private Volume _volumeProfile;
         [SerializeField] private Canvas _canvas;
+        
         private Vignette _vignette;
-
         private bool _isBurrowed;
         private bool _isUsingPeriscope;
     
-        //When you want to do something with these 2 variables, but only as read-only.
+        //When you want to do something with these variables, but only as read-only.
         public override int Health => _health;
         public override int MaxHealth => _maxHealth;
         public bool IsBurrowed => _isBurrowed;
+
 
         private void Start()
         {

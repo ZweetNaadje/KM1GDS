@@ -23,7 +23,7 @@ namespace Enemy_Scripts.States
         /// </summary>
 
         [SerializeField] private float _detectionRange;
-        [SerializeField] private LayerMask _attackableLayer; //useful for when using overlapsphere
+        //[SerializeField] private LayerMask _attackableLayer; //useful for when using overlapsphere
 
         public override void OnExit()
         {
@@ -46,10 +46,14 @@ namespace Enemy_Scripts.States
         private void ScanForPlayer()
         {
             var distToPlayer = Vector3.Distance(transform.position, _owner.Player.transform.position);
-
-            Debug.Log(distToPlayer);
+            //Debug.Log(distToPlayer);
             
-            if (distToPlayer < _detectionRange && !_owner.Player.IsBurrowed)
+            if (distToPlayer > _detectionRange)
+            {
+                return;
+            }
+
+            if (distToPlayer < _detectionRange)
             {
                 stateMachine.SwitchState(typeof(EnemyAttackState));
             }
