@@ -18,15 +18,17 @@ namespace Player_Scripts
         [SerializeField] private float _moveSpeed;
         [SerializeField] private float _rotationSpeed = 10f;
         
-        [SerializeField] private CinemachineVirtualCamera _periscopeCamera;
         [SerializeField] private Volume _volumeProfile;
         [SerializeField] private Canvas _canvas;
-
         [SerializeField] private AudioSource _audioSource;
+
         
         private Vignette _vignette;
         private bool _isBurrowed;
         private bool _isUsingPeriscope;
+        
+        public CinemachineVirtualCamera PeriscopeCamera;
+
     
         //When you want to do something with these variables, but only as read-only.
         public override int Health => _health;
@@ -38,7 +40,6 @@ namespace Player_Scripts
         {
             _health = _maxHealth;
             _canvas.enabled = false;
-            _audioSource.Play();
 
             _volumeProfile.profile.TryGet(typeof(Vignette), out Vignette vignette);
     
@@ -51,6 +52,8 @@ namespace Player_Scripts
         public override void TakeDamage(int damage)
         {
             _health -= damage;
+            
+            _audioSource.PlayOneShot(_audioSource.clip);
 
             if (_health <= 0)
             {
@@ -71,8 +74,8 @@ namespace Player_Scripts
             {
                 _canvas.enabled = true;
                 _volumeProfile.enabled = true;
-                _periscopeCamera.m_Lens.FieldOfView = 40;
-                _periscopeCamera.Priority = 11;
+                PeriscopeCamera.m_Lens.FieldOfView = 40;
+                PeriscopeCamera.Priority = 11;
                 
                 transform.localPosition = new Vector3(xVector, yVector - 7.07f, zVector);
                 _moveSpeed = 15f;
@@ -81,7 +84,7 @@ namespace Player_Scripts
             {
                 _canvas.enabled = false;
                 _volumeProfile.enabled = false;
-                _periscopeCamera.Priority = 9;
+                PeriscopeCamera.Priority = 9;
                 
                 transform.localPosition = new Vector3(xVector, yVector + 7.07f, zVector);
                 _moveSpeed = 7f;
@@ -110,14 +113,14 @@ namespace Player_Scripts
             {
                 _canvas.enabled = true;
                 _volumeProfile.enabled = true;
-                _periscopeCamera.m_Lens.FieldOfView = 40;
-                _periscopeCamera.Priority = 11;
+                PeriscopeCamera.m_Lens.FieldOfView = 40;
+                PeriscopeCamera.Priority = 11;
             }
             else
             {
                 _canvas.enabled = false;
                 _volumeProfile.enabled = false;
-                _periscopeCamera.Priority = 9;
+                PeriscopeCamera.Priority = 9;
             }
         }
     }

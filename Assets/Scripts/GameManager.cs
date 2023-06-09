@@ -8,9 +8,11 @@ public class GameManager : MonoBehaviour
 {
     public static List<Enemy> Enemies = new List<Enemy>();
 
+    [SerializeField] private string _sceneName;
+    
     private void Start()
     {
-        var allEnemies = FindObjectsOfType<Enemy>();
+        var allEnemies = FindObjectsOfType<Enemy>(true);
 
         foreach (var enemy in allEnemies)
         {
@@ -22,7 +24,7 @@ public class GameManager : MonoBehaviour
     {
         if (Enemies.Count <= 0)
         {
-            SceneManager.LoadScene("WinScreen");
+            SceneManager.LoadScene(_sceneName);
             Debug.Log("You won the game!");
         }
     }
