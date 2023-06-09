@@ -7,6 +7,8 @@ public class Shoot : MonoBehaviour
     [SerializeField] private GameObject _smokeVfx;
     [SerializeField] private float _fireRate;
     [SerializeField] private float _bulletSpeed;
+    [SerializeField] private AudioSource _torpedoAudioSource;
+    [SerializeField] private AudioSource _cannonAudioSource;
     
     [SerializeField] private GameObject _torpedoPrefab;
     [SerializeField] private Transform[] _torpedoSpawnPoints;
@@ -19,6 +21,8 @@ public class Shoot : MonoBehaviour
         {
             return;
         }
+        
+        _cannonAudioSource.PlayOneShot(_cannonAudioSource.clip);
 
         foreach (var cannon in _bulletSpawnPoints)
         {
@@ -42,6 +46,8 @@ public class Shoot : MonoBehaviour
         {
             return;
         }
+        
+        _torpedoAudioSource.PlayOneShot(_torpedoAudioSource.clip);
         
         foreach (var torpedoLauncher in _torpedoSpawnPoints)
         {

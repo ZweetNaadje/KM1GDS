@@ -35,6 +35,13 @@ namespace Player_Scripts
             {
                 _shoot.LaunchTorpedo();
             }
+
+            if (_player.IsBurrowed && Input.GetKeyDown(KeyCode.LeftShift))
+            {
+                Debug.Log("Align periscope!");
+                var periscopeRotation = _player.PeriscopeCamera.transform.rotation;
+                periscopeRotation.y = 0.0f;
+            }
         }
     }
 }

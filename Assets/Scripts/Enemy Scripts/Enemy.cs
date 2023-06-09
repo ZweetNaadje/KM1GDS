@@ -104,7 +104,7 @@ namespace Enemy_Scripts
             if (_health <= 0)
             {
                 GameManager.Enemies.Remove(this);
-                Destroy(gameObject, 1.0f);
+                Destroy(gameObject, 0.3f);
             }
         }
 

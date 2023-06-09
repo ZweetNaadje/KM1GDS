@@ -151,7 +151,6 @@ MonoBehaviour:
   _timeAlive: 10
   _explosionVFX: {fileID: 163066, guid: 53777b8572d1e7242bc90044f62667ce, type: 3}
   _impulse: {fileID: -2679197174574487599}
-  _audioSource: {fileID: 8487671137651087615}
   _audioClip: {fileID: 8300000, guid: cf50a6c3e34f91d4aaf05bc16a152041, type: 3}
 --- !u!114 &-2679197174574487599
 MonoBehaviour:
@@ -238,22 +237,40 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
+      value: 0.9895477
+      inSlope: -7.2233567
+      outSlope: -7.2233567
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.2769903
+      value: 0.5
+      inSlope: -1.8058392
+      outSlope: -1.8058392
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 0.5539806
+      value: 0.25
+      inSlope: -0.4514598
+      outSlope: -0.4514598
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
+      value: 0.13849515
+      inSlope: -0.13855025
+      outSlope: -0.13855025
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
+      inWeight: 0
+      outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -262,7 +279,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -277,7 +294,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
